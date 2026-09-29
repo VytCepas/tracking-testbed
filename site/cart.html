@@ -1,0 +1,10 @@
+<!doctype html><html lang="en"><head><title>Cart · Testbed Outdoor</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="assets/styles.css"><script src="config.js"></script><script src="assets/tb.js"></script><script src="assets/tags.js"></script></head><body><main id="main"></main>
+<script>
+  const lines = TB.cart.lines();
+  const rows = lines.map((l) => { const p = TB.product(l.id); return '<tr><td>' + p.item_name + '</td><td>' + l.qty + '</td><td>' + TB.fmt(p.price * l.qty) + '</td></tr>'; }).join('');
+  document.getElementById('main').innerHTML = '<h1>Cart</h1>' + (lines.length
+    ? '<table><tr><th>Product</th><th>Qty</th><th>Total</th></tr>' + rows + '</table><p>Total <strong>' + TB.fmt(TB.cart.value()) + '</strong></p><a class="button" id="checkout" href="checkout.html">Checkout</a>'
+    : '<p>Your cart is empty. <a href="index.html">Browse products</a>.</p>');
+  if (lines.length) TB.push('view_cart', { currency: TB.CURRENCY, value: TB.cart.value(), items: TB.cart.items() }, { ecommerce: true });
+  TB.ready();
+</script></body></html>

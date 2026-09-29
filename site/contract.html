@@ -1,0 +1,18 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Contract · Testbed Outdoor</title><link rel="stylesheet" href="assets/styles.css"><script src="config.js"></script><script src="assets/tb.js"></script></head>
+<body><main id="main"><h1>The dataLayer contract</h1><p class="muted">Rendered from <a href="contract.json">contract.json</a>, the same file the tests check against. There is no hand-written copy to drift.</p></main>
+<script>
+  fetch('contract.json').then((r) => r.json()).then((c) => {
+    const m = document.getElementById('main');
+    const esc = (s) => String(s).replace(/[&<>]/g, (x) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[x]));
+    let h = '<p>Version <code>' + esc(c.version) + '</code>. ' + esc(c.about) + '</p>';
+    h += '<p>Every push: ' + c.common.map((f) => '<code>' + f + '</code>').join(', ') + '.</p>';
+    h += '<h2>Events</h2><table><tr><th>Event</th><th>When</th><th>Fields</th></tr>';
+    for (const [name, e] of Object.entries(c.events)) {
+      h += '<tr><td><code>' + name + '</code></td><td>' + esc(e.when) + '</td><td>' + (e.ecommerce ? '<span class="muted">ecommerce.</span>' : '')
+        + e.fields.map((f) => '<code>' + f + '</code>').join(', ') + (e.oncePer ? '<br><span class="warn">once per ' + e.oncePer + '</span>' : '') + '</td></tr>';
+    }
+    h += '</table><h2>Items</h2><p>Required: ' + c.item.required.map((f) => '<code>' + f + '</code>').join(', ') + '. Numbers: ' + c.item.numbers.join(', ') + '.</p><p>' + esc(c.item.why) + '</p>';
+    m.insertAdjacentHTML('beforeend', h);
+  });
+  TB.ready();
+</script></body></html>

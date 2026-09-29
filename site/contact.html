@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><title>Contact · Testbed Outdoor</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="assets/styles.css"><script src="config.js"></script><script src="assets/tb.js"></script><script src="assets/tags.js"></script></head><body><main id="main">
+<h1>Contact us</h1>
+<form id="lead" action="contact.html" method="get">
+<p><label>Email <input type="email" name="email" value="learner@example.com" required></label></p>
+<p><label>Message <textarea name="message">Do you ship to Riga?</textarea></label></p>
+<p><button>Send</button></p></form></main>
+<script>
+  const sent = new URLSearchParams(location.search).has('sent');
+  if (sent) document.getElementById('main').innerHTML = '<h1>Thanks, we will reply soon.</h1>';
+  const form = document.getElementById('lead');
+  if (form) form.onsubmit = (e) => {
+    e.preventDefault();
+    TB.push('generate_lead', { lead_type: 'contact_form' });
+    const email = new FormData(e.target).get('email');
+    // The defect is the classic one: the address rides along in the next page's URL.
+    const next = TB.on('pii-email-in-url') ? 'contact.html?sent=1&email=' + encodeURIComponent(email) : 'contact.html?sent=1';
+    setTimeout(() => { location.href = next; }, 300);
+  };
+  TB.ready();
+</script></body></html>

@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Defects · Testbed Outdoor</title><link rel="stylesheet" href="assets/styles.css"><script src="config.js"></script><script src="assets/tb.js"></script></head>
+<body><main id="main"><h1>Defect switchboard</h1>
+<p>Each switch breaks the tracking in exactly one known way. Turn one on, walk the shop, and see whether your tools notice. The automated tests prove that each switch turns exactly its own rule red, and nothing else.</p>
+<form id="f"></form><p><button form="f">Apply</button> <a href="defects.html?defect=">Turn all off</a></p></main>
+<script>
+  fetch('defects.json').then((r) => r.json()).then((list) => {
+    const active = new Set(TB.defects());
+    const esc = (s) => String(s).replace(/[&<>]/g, (x) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[x])).replace(/`([^`]+)`/g, '<code>$1</code>');
+    document.getElementById('f').innerHTML = list.map((d) => '<div class="card"><label><input type="checkbox" name="d" value="' + d.id + '"' + (active.has(d.id) ? ' checked' : '') + '> <strong>'
+      + d.id + '</strong> <span class="muted">(' + d.layer + ')</span></label><p>' + esc(d.what) + '</p><p class="muted">' + esc(d.lesson) + '</p><p>Rules: '
+      + d.expect.map((r) => '<code>' + r + '</code>').join(', ') + '</p></div>').join('');
+    document.getElementById('f').onsubmit = (e) => { e.preventDefault(); location.href = 'index.html?defect=' + new FormData(e.target).getAll('d').join(','); };
+  });
+  TB.ready();
+</script></body></html>

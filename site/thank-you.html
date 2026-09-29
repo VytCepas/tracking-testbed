@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><title>Thank you · Testbed Outdoor</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="assets/styles.css"><script src="config.js"></script><script src="assets/tb.js"></script><script src="assets/tags.js"></script></head><body><main id="main"></main>
+<script>
+  const tx = new URLSearchParams(location.search).get('tx');
+  const order = tx && TB.orders.get(tx);
+  const main = document.getElementById('main');
+  if (!order) main.innerHTML = '<h1>No order found</h1><p><a href="index.html">Back to the shop</a></p>';
+  else {
+    main.innerHTML = '<h1>Thank you</h1><p>Order <code>' + order.transaction_id + '</code>, ' + TB.fmt(order.value) + '.</p><p class="muted">Reload this page: the purchase must not be reported twice.</p>';
+    // Report each order once. Reloads, history and a second tab must not report it again.
+    if (!TB.orders.reported(tx) || TB.on('dl-purchase-on-reload')) {
+      const fields = { transaction_id: order.transaction_id, currency: TB.CURRENCY, value: order.value,
+        items: order.lines.map((l, i) => TB.toItem(TB.product(l.id), l.qty, i)) };
+      if (TB.on('dl-purchase-no-txid')) delete fields.transaction_id;
+      TB.push('purchase', fields, { ecommerce: true });
+      TB.orders.markReported(tx);
+      TB.cart.clear();
+    }
+  }
+  TB.ready();
+</script></body></html>

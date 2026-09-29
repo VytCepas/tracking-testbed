@@ -1,0 +1,13 @@
+{
+  "name": "tracking-testbed",
+  "private": true,
+  "type": "module",
+  "description": "A practice shop with deliberate, switchable tracking defects: for learning web tracking and for testing tracking tools.",
+  "scripts": {
+    "start": "bun server.mjs",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

@@ -1,0 +1,11 @@
+<!doctype html><html lang="en"><head><title>Testbed Outdoor</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="assets/styles.css"><script src="config.js"></script><script src="assets/tb.js"></script><script src="assets/tags.js"></script></head><body><main>
+<h1>Outdoor gear</h1>
+<p class="muted">A practice shop for web tracking. Open the <strong>dataLayer</strong> box in the corner to watch what the site tells the tags.</p>
+<div class="grid" id="list"></div></main>
+<script>
+  const items = TB.PRODUCTS.map((p, i) => TB.toItem(p, 1, i));
+  document.getElementById('list').innerHTML = TB.PRODUCTS.map((p) =>
+    '<div class="card"><h2>' + p.item_name + '</h2><p>' + TB.fmt(p.price) + '</p><a class="button" href="product.html?id=' + p.item_id + '">View</a></div>').join('');
+  TB.push('view_item_list', { item_list_id: 'all', item_list_name: 'All products', items }, { ecommerce: true });
+  TB.ready();
+</script></body></html>

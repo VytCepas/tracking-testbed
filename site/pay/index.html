@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Testbed Pay</title>
+<style>body{font:16px/1.5 system-ui,sans-serif;max-width:480px;margin:40px auto;padding:0 16px}button{font:inherit;padding:10px 18px;border-radius:6px;border:0;background:#3b3fb6;color:#fff;cursor:pointer}</style></head>
+<body><h1>Testbed Pay</h1>
+<p>A stand-in payment gateway on its own site. It has no tracking of its own, like most real gateways.</p>
+<p>Amount: <strong id="amount"></strong></p><button id="pay">Pay</button>
+<script>
+  const q = new URLSearchParams(location.search);
+  document.getElementById('amount').textContent = '€' + Number(q.get('amount') || 0).toFixed(2);
+  const back = new URL(q.get('return') || '/', location.href);
+  // Only return to a testbed page: an open redirect is its own lesson.
+  const ok = back.hostname.endsWith('localhost') || back.hostname.endsWith('github.io') || back.hostname === location.hostname;
+  document.getElementById('pay').onclick = () => {
+    if (!ok) { document.body.insertAdjacentHTML('beforeend', '<p>Unexpected return address.</p>'); return; }
+    back.searchParams.set('tx', q.get('tx'));
+    location.href = back.href;
+  };
+</script></body></html>
