@@ -1,0 +1,19 @@
+<!doctype html><html lang="en"><head><title>Checkout · Testbed Outdoor</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="assets/styles.css"><script src="config.js"></script><script src="assets/tb.js"></script><script src="assets/tags.js"></script></head><body><main>
+<h1>Checkout</h1>
+<form id="pay"><p><label>Email <input type="email" name="email" value="learner@example.com" required></label></p>
+<fieldset><legend>Payment</legend><label><input type="radio" name="payment_type" value="card" checked> Card (Testbed Pay)</label></fieldset>
+<p><button>Continue to payment</button></p></form>
+<p class="muted">Payment happens on a separate site, as with a real gateway. Watch what the thank-you page does when you come back.</p></main>
+<script>
+  TB.push('begin_checkout', { currency: TB.CURRENCY, value: TB.cart.value(), items: TB.cart.items() }, { ecommerce: true });
+  document.getElementById('pay').onsubmit = (e) => {
+    e.preventDefault();
+    const type = new FormData(e.target).get('payment_type');
+    TB.push('add_payment_info', { currency: TB.CURRENCY, value: TB.cart.value(), payment_type: type, items: TB.cart.items() }, { ecommerce: true });
+    const order = TB.orders.create();
+    const back = TB.shop('thank-you.html');
+    // Give the tag a moment to send before the page is left.
+    setTimeout(() => { location.href = TB.gateway() + '?tx=' + order.transaction_id + '&amount=' + order.value + '&return=' + encodeURIComponent(back); }, 300);
+  };
+  TB.ready();
+</script></body></html>

@@ -1,0 +1,105 @@
+[
+  {
+    "id": "dl-ecommerce-not-cleared",
+    "layer": "dataLayer",
+    "expect": [
+      "dl.ecommerce_not_cleared"
+    ],
+    "what": "The site pushes ecommerce events without `{ ecommerce: null }` first.",
+    "lesson": "GTM merges each push into one data model. Without the clear, items from the product page are still there when the cart is pushed, and a tag reading `ecommerce.items` sends the wrong products."
+  },
+  {
+    "id": "dl-price-string",
+    "layer": "dataLayer",
+    "expect": [
+      "dl.price_not_number"
+    ],
+    "what": "Item prices are pushed as text (\"19.99\").",
+    "lesson": "GA4 happens to accept it, which is why nobody notices. Other destinations add the prices as text or drop them, and revenue quietly differs between platforms."
+  },
+  {
+    "id": "dl-item-no-id",
+    "layer": "dataLayer",
+    "expect": [
+      "dl.item_no_id"
+    ],
+    "what": "Items carry a name but no item_id.",
+    "lesson": "GA4 accepts either an id or a name, so GA4 reports look fine. Ad platforms match sales to the product feed by id, and without it dynamic ads and product reports break."
+  },
+  {
+    "id": "dl-purchase-no-txid",
+    "layer": "dataLayer",
+    "expect": [
+      "dl.purchase_no_txid",
+      "ga4.purchase_no_txid"
+    ],
+    "what": "The purchase push has no transaction_id.",
+    "lesson": "transaction_id is how GA4 and ad platforms drop duplicate purchases. Without it every reload of the thank-you page is another sale."
+  },
+  {
+    "id": "dl-purchase-on-reload",
+    "layer": "dataLayer",
+    "expect": [
+      "dl.purchase_duplicate",
+      "ga4.purchase_duplicate"
+    ],
+    "what": "Reloading the thank-you page pushes the purchase again.",
+    "lesson": "The site must remember which orders it already reported. Relying on the platforms to deduplicate fails for any destination that does not, and for GA4 once the id is missing too."
+  },
+  {
+    "id": "dl-no-event-id",
+    "layer": "dataLayer",
+    "expect": [
+      "dl.no_event_id"
+    ],
+    "what": "Pushes carry no event_id.",
+    "lesson": "event_id is how a browser pixel and a server-side send of the same event are recognised as one (Meta, TikTok). Without it, server-side tracking double-counts."
+  },
+  {
+    "id": "tag-event-name-case",
+    "layer": "tags",
+    "expect": [
+      "ga4.event_name_case",
+      "journey.ga4_missing"
+    ],
+    "what": "The tag sends `addToCart` instead of `add_to_cart`.",
+    "lesson": "GA4 treats different spellings as different events and does not merge them, so ecommerce reports miss every add to cart. The dataLayer was right; the tag was wrong."
+  },
+  {
+    "id": "tag-value-no-currency",
+    "layer": "tags",
+    "expect": [
+      "ga4.value_no_currency"
+    ],
+    "what": "The tag sends value without currency.",
+    "lesson": "GA4 ignores a value it cannot convert, so revenue reads zero while the events look healthy."
+  },
+  {
+    "id": "tag-direct-to-google",
+    "layer": "tags",
+    "expect": [
+      "journey.ga4_missing",
+      "tags.not_first_party"
+    ],
+    "what": "The GA4 tag sends straight to Google instead of our first-party collector.",
+    "lesson": "Server-side tagging only helps if hits go through it. One misconfigured tag sends around it, and the server never sees those events."
+  },
+  {
+    "id": "consent-default-granted",
+    "layer": "consent",
+    "expect": [
+      "consent.default_granted"
+    ],
+    "what": "Consent defaults to granted before the visitor chooses.",
+    "lesson": "In the EEA the default must be denied. A granted default sends full, cookie-bearing hits before anyone has agreed."
+  },
+  {
+    "id": "pii-email-in-url",
+    "layer": "privacy",
+    "expect": [
+      "pii.email_in_hit"
+    ],
+    "what": "The lead form puts the email address in the thank-you page URL.",
+    "lesson": "Every tag sends the page URL, so the email reaches GA4 in cleartext, which Google's terms forbid. Keep personal data out of URLs."
+  }
+]

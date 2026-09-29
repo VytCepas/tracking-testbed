@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "about": "The dataLayer contract this shop implements. It is the site's whole obligation: everything after the dataLayer (tags, GA4, ad platforms) is set up from it. Every push carries `event`, `event_id` and `contract_version`. Ecommerce events put their data under `ecommerce`, and the site pushes `{ ecommerce: null }` right before each one.",
+  "common": ["event", "event_id", "contract_version"],
+  "item": {
+    "required": ["item_id", "item_name", "price", "quantity"],
+    "numbers": ["price", "quantity"],
+    "why": "item_id must match the product feed, or ad platforms cannot tie a sale to a product. price and quantity must be numbers, because a string price is summed as text or dropped."
+  },
+  "events": {
+    "consent_update": { "ecommerce": false, "fields": ["analytics_storage", "ad_storage", "ad_user_data", "ad_personalization"], "when": "The visitor answers the consent banner." },
+    "view_item_list": { "ecommerce": true, "fields": ["item_list_id", "item_list_name", "items"], "when": "A product list is shown." },
+    "view_item": { "ecommerce": true, "fields": ["currency", "value", "items"], "when": "A product page is shown." },
+    "add_to_cart": { "ecommerce": true, "fields": ["currency", "value", "items"], "when": "A product is added to the cart." },
+    "view_cart": { "ecommerce": true, "fields": ["currency", "value", "items"], "when": "The cart is shown." },
+    "begin_checkout": { "ecommerce": true, "fields": ["currency", "value", "items"], "when": "Checkout starts." },
+    "add_payment_info": { "ecommerce": true, "fields": ["currency", "value", "payment_type", "items"], "when": "A payment method is chosen, just before leaving for the gateway." },
+    "purchase": { "ecommerce": true, "fields": ["transaction_id", "currency", "value", "items"], "oncePer": "transaction_id", "when": "The order is confirmed. Exactly once per transaction_id, even if the thank-you page is reloaded or reopened." },
+    "generate_lead": { "ecommerce": false, "fields": ["lead_type"], "when": "The contact form is sent. No personal data in the push or in the URL." }
+  }
+}

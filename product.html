@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><head><title>Product · Testbed Outdoor</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="assets/styles.css"><script src="config.js"></script><script src="assets/tb.js"></script><script src="assets/tags.js"></script></head><body><main id="main"></main>
+<script>
+  const p = TB.product(new URLSearchParams(location.search).get('id')) || TB.PRODUCTS[0];
+  document.getElementById('main').innerHTML = '<h1>' + p.item_name + '</h1><p>' + p.item_brand + ' · ' + p.item_category + '</p><p><strong>' + TB.fmt(p.price) + '</strong></p>'
+    + '<button id="add">Add to cart</button> <a href="cart.html">Go to cart</a><p id="added" class="muted" hidden>Added.</p>';
+  TB.push('view_item', { currency: TB.CURRENCY, value: p.price, items: [TB.toItem(p)] }, { ecommerce: true });
+  document.getElementById('add').onclick = () => {
+    TB.cart.add(p.item_id);
+    TB.push('add_to_cart', { currency: TB.CURRENCY, value: p.price, items: [TB.toItem(p)] }, { ecommerce: true });
+    document.getElementById('added').hidden = false;
+  };
+  TB.ready();
+</script></body></html>
