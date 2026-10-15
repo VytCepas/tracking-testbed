@@ -23,7 +23,11 @@ async function collect(req, url) {
   for (const event of decodeGa4(url.search.slice(1), body)) {
     hits.push({ ts: Date.now(), host: url.host, firstParty: true, ...event });
   }
-  return new Response(null, { status: 204, headers: { 'access-control-allow-origin': '*' } });
+  // gtag sends with credentials, and a browser refuses `*` for those: answer the way the
+  // real endpoint does, or every hit reads as failed to the page and to any tool watching.
+  const origin = req.headers.get('origin');
+  const headers = origin ? { 'access-control-allow-origin': origin, 'access-control-allow-credentials': 'true', vary: 'Origin' } : {};
+  return new Response(null, { status: 204, headers });
 }
 
 async function file(path) {
