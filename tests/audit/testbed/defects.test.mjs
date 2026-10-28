@@ -1,10 +1,10 @@
 // The testbed's promise, as tests: the exemplar is fully green, and every defect
 // switch turns exactly its own rules red and nothing else.
 import { afterAll, beforeAll, expect, test } from 'bun:test';
-import { start } from '../server.mjs';
-import { ruleSet, validate } from '../lib/validate.mjs';
-import { JOURNEY, walk } from './walk.mjs';
-import defects from '../site/defects.json' with { type: 'json' };
+import { start } from '../../../server.mjs';
+import { ruleSet, validate } from '../../../lib/validate.mjs';
+import { JOURNEY, walk } from '../../walk.mjs';
+import defects from '../../../site/defects.json' with { type: 'json' };
 
 let tb;
 beforeAll(() => { tb = start(0); });

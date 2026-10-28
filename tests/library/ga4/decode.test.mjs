@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test';
-import { decodeGa4 } from '../lib/ga4.mjs';
+import { decodeGa4 } from '../../../lib/ga4.mjs';
 
 test('GET hit: one event, params and items decoded', () => {
   const [e] = decodeGa4('v=2&tid=G-X&en=purchase&cu=EUR&ep.transaction_id=T1&epn.value=19.99&pr1=idA~nmLamp~pr19.99~qt1&gcs=G111');

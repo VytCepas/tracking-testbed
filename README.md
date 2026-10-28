@@ -47,7 +47,7 @@ The tests prove three things:
 
 - The exemplar produces no findings, and the purchase really reached the collector. A green result cannot come from nothing being sent.
 - Each defect produces exactly the rules it declares in `defects.json`.
-- On static hosting, a full purchase sends **no request off the site** (`tests/static.test.mjs`).
+- On static hosting, a full purchase sends **no request off the site** (`tests/lint/site/static.test.mjs`).
 
 ## Using it to test a tool
 

@@ -3,7 +3,7 @@
 import { expect, test } from 'bun:test';
 import { chromium } from 'playwright';
 
-const SITE = new URL('../site/', import.meta.url).pathname;
+const SITE = new URL('../../../site/', import.meta.url).pathname;
 
 test('static hosting: a full purchase sends no request off the site', async () => {
   const server = Bun.serve({
