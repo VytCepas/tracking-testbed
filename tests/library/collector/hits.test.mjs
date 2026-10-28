@@ -2,7 +2,7 @@
 // `Access-Control-Allow-Origin: *` (see "Things this taught us"). The hit still reaches
 // the collector, but the page sees a failed request, and so does any tool watching it.
 import { afterAll, beforeAll, expect, test } from 'bun:test';
-import { start } from '../server.mjs';
+import { start } from '../../../server.mjs';
 
 let tb;
 beforeAll(() => { tb = start(0); });
