@@ -1,0 +1,5 @@
+# naming-exemptions.tsv (harbor#967) — names the naming standard must not judge in this repo, with the reason.
+# Same columns as vendor/naming/registry/exemptions.tsv. A published interface, a third-party file
+# convention or a vendor id goes here; anything else is renamed. gates/naming-check.sh reads it.
+id	rule	subject	kind	remove_by	reason
+testbed-0001	name.extension	gates/naming.baseline	tool-required	-	the naming gate reads gates/naming.baseline by name, the file every project-init scaffold ships (templates/base/gates)
