@@ -81,7 +81,10 @@ fi
 GIT_INDEX_FILE="$T/index"; export GIT_INDEX_FILE
 git add -A -- . > /dev/null 2>&1 || unchecked "could not read the working tree through git"
 rc=0
-sh "$LINT" --root "$ROOT" --registry "$T/registry" --format findings > "$T/out" 2> "$T/err" || rc=$?
+# Hermetic: the judge would also read the box's private term overlay and pack terms, which CI never has, so a
+# baseline seeded on the box would go red in CI. Point both at nothing: every run judges what CI judges.
+HARBOR_SCOPE_PRIVATE="$T/no-private" CLAUDE_CONFIG_DIR="$T/no-config" \
+  sh "$LINT" --root "$ROOT" --registry "$T/registry" --format findings > "$T/out" 2> "$T/err" || rc=$?
 unset GIT_INDEX_FILE GIT_DIR GIT_WORK_TREE
 if [ "$rc" -gt 1 ]; then
   cat "$T/err" >&2
