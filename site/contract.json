@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "about": "The dataLayer contract this shop implements. It is the site's whole obligation: everything after the dataLayer (tags, GA4, ad platforms) is set up from it. Every push carries `event`, `event_id` and `contract_version`. Ecommerce events put their data under `ecommerce`, and the site pushes `{ ecommerce: null }` right before each one.",
   "common": ["event", "event_id", "contract_version"],
   "item": {
