@@ -1,7 +1,7 @@
 // The shop's own code, and the one place it talks to the dataLayer.
 // Everything a site owes its tracking lives in push() below: read it with site/contract.json.
 (function () {
-  const CONTRACT_VERSION = '1.0.0';
+  const CONTRACT_VERSION = '1.1.0';
   const CURRENCY = 'EUR';
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch { return null; } },
