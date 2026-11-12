@@ -1,0 +1,10 @@
+# naming baseline: findings the tree carried when the naming gate was adopted. rule TAB subject.
+# This file only SHRINKS: a line whose finding no longer occurs turns the gate red until it is
+# deleted; a new finding is fixed, never added here.
+name.env	env:HARBOR_PLAN_REPO
+name.word-unregistered	site/assets/styles.css
+name.word-unregistered	site/assets/tb.js
+name.word-unregistered	site/cart.html
+name.word-unregistered	site/thank-you.html
+name.word-unregistered	tests/audit/testbed
+name.word-unregistered	tests/library/ga4/decode.test.mjs
