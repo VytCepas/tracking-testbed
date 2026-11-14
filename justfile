@@ -10,6 +10,13 @@ setup:
 [doc("syntax-check every .mjs and .js file")]
 lint:
     sh -c 'set -e; for f in server.mjs lib/*.mjs tests/walk.mjs $(find tests -name "*.test.mjs") site/assets/*.js site/config.js; do bun build --no-bundle "$f" >/dev/null; done; echo "lint: syntax ok"'
+    just naming
+
+# the naming standard over this repo, as a ratchet (harbor#967): a new finding is red, a fixed one must leave
+# gates/naming.baseline. Judged by the vendored package in vendor/naming/; UNCHECKED exits 3, never a pass.
+[doc("naming standard ratchet (gates/naming-check.sh)")]
+naming:
+    sh gates/naming-check.sh
 
 # run the suite; ends with `tracking-testbed: N passed, M failed` (the test contract)
 [doc("run the suite; ends with `tracking-testbed: N passed, M failed` (the test contract)")]
